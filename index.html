@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal do Aluno</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ══════════ MENU INICIAL ══════════ -->
+  <div id="screen-menu" class="screen active">
+    <div class="logo-wrap">
+      <div class="logo-icon">🎓</div>
+      <div class="logo-title">Portal do Aluno</div>
+      <div class="logo-sub">Sistema Acadêmico Integrado</div>
+    </div>
+
+    <div class="cards-row">
+      <div class="role-card student" onclick="goToLogin('student')">
+        <span class="role-icon">👨‍🎓</span>
+        <div class="role-name">Sou Aluno</div>
+        <div class="role-desc">Acesse boletim, aulas, provas agendadas e avisos da escola.</div>
+        <span class="role-btn">Entrar como Aluno</span>
+      </div>
+
+      <div class="role-card teacher" onclick="goToLogin('teacher')">
+        <span class="role-icon">👩‍🏫</span>
+        <div class="role-name">Sou Professor</div>
+        <div class="role-desc">Gerencie turmas, insira notas, agende provas e envie avisos.</div>
+        <span class="role-btn">Entrar como Professor</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════ LOGIN ══════════ -->
+  <div id="screen-login" class="screen">
+    <div class="login-box">
+      <div class="login-header">
+        <div id="login-badge" class="login-badge student">👨‍🎓 &nbsp;Área do Aluno</div>
+        <div class="login-title">Bem-vindo de volta!</div>
+        <div class="login-sub">Insira suas credenciais para continuar</div>
+      </div>
+
+      <div id="error-msg" class="error-msg">⚠️ Usuário ou senha incorretos. Tente novamente.</div>
+
+      <div class="form-group">
+        <label class="form-label">Usuário / Matrícula</label>
+        <input type="text" id="login-user" class="form-input" placeholder="Digite seu usuário">
+        <div class="hint-text" id="login-hint">Dica: aluno / senha123</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Senha</label>
+        <input type="password" id="login-pass" class="form-input" placeholder="••••••••">
+      </div>
+
+      <button id="login-btn" class="btn-primary student" onclick="doLogin()">Entrar</button>
+      <span class="back-link" onclick="goTo('menu')">← Voltar ao início</span>
+    </div>
+  </div>
+
+  <!-- ══════════ DASHBOARD ALUNO ══════════ -->
+  <div id="screen-student" class="screen">
+    <div class="topbar">
+      <div class="topbar-logo">Portal do Aluno</div>
+      <div class="topbar-user">
+        <div class="user-info">
+          <div class="user-name">João Pedro Silva</div>
+          <div class="user-role">Aluno · 3º Ano B</div>
+        </div>
+        <div class="user-avatar student">JP</div>
+        <button class="logout-btn" onclick="goTo('menu')">Sair</button>
+      </div>
+    </div>
+
+    <div class="dashboard-body">
+      <div class="sidebar">
+        <div class="sidebar-section">Menu</div>
+        <div class="nav-item active student-nav" onclick="showPage('student', 'boletim', this)">
+          <span class="nav-icon">📊</span> Boletim
+        </div>
+        <div class="nav-item" onclick="showPage('student', 'aulas', this)">
+          <span class="nav-icon">📚</span> Aulas
+        </div>
+        <div class="nav-item" onclick="showPage('student', 'provas', this)">
+          <span class="nav-icon">📝</span> Provas
+        </div>
+        <div class="nav-item" onclick="showPage('student', 'avisos', this)">
+          <span class="nav-icon">🔔</span> Avisos
+        </div>
+      </div>
+
+      <div class="main-content">
+
+        <!-- Boletim -->
+        <div id="student-boletim" class="page active">
+          <div class="page-header">
+            <div class="page-title">📊 Boletim</div>
+            <div class="page-sub">2º Semestre · 2025 — Turma 3B</div>
+          </div>
+
+          <div class="cards-grid">
+            <div class="stat-card">
+              <div class="stat-label">Média Geral</div>
+              <div class="stat-value" style="color:var(--success)">8.4</div>
+              <div class="stat-change">↑ 0.3 desde o último bimestre</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Frequência</div>
+              <div class="stat-value" style="color:var(--accent2)">92%</div>
+              <div class="stat-change">87 de 95 aulas</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Situação</div>
+              <div class="stat-value" style="font-size:20px; padding-top:6px">✅ Regular</div>
+              <div class="stat-change">Todas as matérias aprovadas</div>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-title">Notas por Disciplina</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Disciplina</th>
+                  <th>Professor</th>
+                  <th>B1</th>
+                  <th>B2</th>
+                  <th>B3</th>
+                  <th>B4</th>
+                  <th>Média</th>
+                  <th>Situação</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Matemática</td><td>Prof. Carlos</td><td>8.0</td><td>7.5</td><td>9.0</td><td>8.5</td><td><b>8.3</b></td><td><span class="badge badge-green">Aprovado</span></td></tr>
+                <tr><td>Português</td><td>Profa. Ana</td><td>9.0</td><td>8.5</td><td>9.5</td><td>9.0</td><td><b>9.0</b></td><td><span class="badge badge-green">Aprovado</span></td></tr>
+                <tr><td>História</td><td>Prof. Marcos</td><td>7.0</td><td>6.5</td><td>7.5</td><td>7.0</td><td><b>7.0</b></td><td><span class="badge badge-green">Aprovado</span></td></tr>
+                <tr><td>Geografia</td><td>Profa. Lucia</td><td>8.5</td><td>9.0</td><td>8.0</td><td>8.5</td><td><b>8.5</b></td><td><span class="badge badge-green">Aprovado</span></td></tr>
+                <tr><td>Física</td><td>Prof. Roberto</td><td>6.0</td><td>5.5</td><td>7.0</td><td>6.5</td><td><b>6.3</b></td><td><span class="badge badge-yellow">Atenção</span></td></tr>
+                <tr><td>Química</td><td>Profa. Sandra</td><td>7.5</td><td>8.0</td><td>7.0</td><td>8.0</td><td><b>7.6</b></td><td><span class="badge badge-green">Aprovado</span></td></tr>
+                <tr><td>Biologia</td><td>Prof. Felipe</td><td>9.5</td><td>9.0</td><td>9.5</td><td>10.0</td><td><b>9.5</b></td><td><span class="badge badge-green">Aprovado</span></td></tr>
+                <tr><td>Inglês</td><td>Profa. Karen</td><td>8.0</td><td>8.5</td><td>9.0</td><td>8.5</td><td><b>8.5</b></td><td><span class="badge badge-green">Aprovado</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Aulas -->
+        <div id="student-aulas" class="page">
+          <div class="page-header">
+            <div class="page-title">📚 Minhas Aulas</div>
+            <div class="page-sub">Grade horária semanal · 3º Ano B</div>
+          </div>
+
+          <div class="schedule-grid">
+            <div class="class-card"><div class="class-day">Segunda-feira</div><div class="class-name">Matemática</div><div class="class-time">07:30 – 09:00</div><div class="class-room">🏫 Sala 12 · Prof. Carlos</div></div>
+            <div class="class-card"><div class="class-day">Segunda-feira</div><div class="class-name">Português</div><div class="class-time">09:15 – 10:45</div><div class="class-room">🏫 Sala 12 · Profa. Ana</div></div>
+            <div class="class-card"><div class="class-day">Terça-feira</div><div class="class-name">Física</div><div class="class-time">07:30 – 09:00</div><div class="class-room">🔬 Lab. Ciências · Prof. Roberto</div></div>
+            <div class="class-card"><div class="class-day">Terça-feira</div><div class="class-name">História</div><div class="class-time">09:15 – 10:45</div><div class="class-room">🏫 Sala 12 · Prof. Marcos</div></div>
+            <div class="class-card"><div class="class-day">Quarta-feira</div><div class="class-name">Química</div><div class="class-time">07:30 – 09:00</div><div class="class-room">🔬 Lab. Química · Profa. Sandra</div></div>
+            <div class="class-card"><div class="class-day">Quarta-feira</div><div class="class-name">Biologia</div><div class="class-time">09:15 – 10:45</div><div class="class-room">🏫 Sala 12 · Prof. Felipe</div></div>
+            <div class="class-card"><div class="class-day">Quinta-feira</div><div class="class-name">Geografia</div><div class="class-time">07:30 – 09:00</div><div class="class-room">🏫 Sala 12 · Profa. Lucia</div></div>
+            <div class="class-card"><div class="class-day">Quinta-feira</div><div class="class-name">Inglês</div><div class="class-time">09:15 – 10:45</div><div class="class-room">🌐 Sala Idiomas · Profa. Karen</div></div>
+            <div class="class-card"><div class="class-day">Sexta-feira</div><div class="class-name">Matemática</div><div class="class-time">07:30 – 09:00</div><div class="class-room">🏫 Sala 12 · Prof. Carlos</div></div>
+            <div class="class-card"><div class="class-day">Sexta-feira</div><div class="class-name">Ed. Física</div><div class="class-time">09:15 – 10:45</div><div class="class-room">⚽ Quadra · Prof. Thiago</div></div>
+          </div>
+        </div>
+
+        <!-- Provas -->
+        <div id="student-provas" class="page">
+          <div class="page-header">
+            <div class="page-title">📝 Provas Agendadas</div>
+            <div class="page-sub">Calendário de avaliações · 2º Semestre 2025</div>
+          </div>
+          <div id="student-provas-list"></div>
+        </div>
+
+        <!-- Avisos -->
+        <div id="student-avisos" class="page">
+          <div class="page-header">
+            <div class="page-title">🔔 Avisos</div>
+            <div class="page-sub">Comunicados da escola e professores</div>
+          </div>
+          <div id="student-avisos-list"></div>
+        </div>
+
+      </div><!-- main-content -->
+    </div><!-- dashboard-body -->
+  </div>
+
+  <!-- ══════════ DASHBOARD PROFESSOR ══════════ -->
+  <div id="screen-teacher" class="screen">
+    <div class="topbar">
+      <div class="topbar-logo">Portal do Aluno</div>
+      <div class="topbar-user">
+        <div class="user-info">
+          <div class="user-name">Profa. Ana Souza</div>
+          <div class="user-role">Professora · Português</div>
+        </div>
+        <div class="user-avatar teacher">AS</div>
+        <button class="logout-btn" onclick="goTo('menu')">Sair</button>
+      </div>
+    </div>
+
+    <div class="dashboard-body">
+      <div class="sidebar">
+        <div class="sidebar-section">Menu</div>
+        <div class="nav-item active teacher-nav" onclick="showPage('teacher', 'turma', this)">
+          <span class="nav-icon">👥</span> Ver Turma
+        </div>
+        <div class="nav-item" onclick="showPage('teacher', 'notas', this)">
+          <span class="nav-icon">✏️</span> Inserir Notas
+        </div>
+        <div class="nav-item" onclick="showPage('teacher', 'provas', this)">
+          <span class="nav-icon">📋</span> Marcar Prova
+        </div>
+        <div class="nav-item" onclick="showPage('teacher', 'avisos', this)">
+          <span class="nav-icon">📢</span> Avisos
+        </div>
+      </div>
+
+      <div class="main-content">
+
+        <!-- Ver Turma -->
+        <div id="teacher-turma" class="page active">
+          <div class="page-header">
+            <div class="page-title">👥 Turma 3B</div>
+            <div class="page-sub">Português · Profa. Ana Souza · 28 alunos</div>
+          </div>
+
+          <div class="cards-grid">
+            <div class="stat-card"><div class="stat-label">Total de Alunos</div><div class="stat-value" style="color:var(--accent)">28</div></div>
+            <div class="stat-card"><div class="stat-label">Média da Turma</div><div class="stat-value" style="color:var(--success)">8.1</div></div>
+            <div class="stat-card"><div class="stat-label">Frequência Média</div><div class="stat-value" style="color:var(--accent2)">89%</div></div>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-title">Lista de Alunos</div>
+            <table>
+              <thead>
+                <tr><th>Nº</th><th>Nome</th><th>Matrícula</th><th>B1</th><th>B2</th><th>B3</th><th>B4</th><th>Freq.</th><th>Situação</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>01</td><td>Ana Beatriz Costa</td><td>2025001</td><td>9.0</td><td>8.5</td><td>—</td><td>—</td><td>95%</td><td><span class="badge badge-green">Regular</span></td></tr>
+                <tr><td>02</td><td>Bruno Henrique Lima</td><td>2025002</td><td>7.5</td><td>8.0</td><td>—</td><td>—</td><td>88%</td><td><span class="badge badge-green">Regular</span></td></tr>
+                <tr><td>03</td><td>Camila Rodrigues</td><td>2025003</td><td>6.0</td><td>5.5</td><td>—</td><td>—</td><td>72%</td><td><span class="badge badge-red">Atenção</span></td></tr>
+                <tr><td>04</td><td>Daniel Ferreira</td><td>2025004</td><td>9.5</td><td>10.0</td><td>—</td><td>—</td><td>98%</td><td><span class="badge badge-green">Regular</span></td></tr>
+                <tr><td>05</td><td>Eduarda Nunes</td><td>2025005</td><td>8.0</td><td>7.5</td><td>—</td><td>—</td><td>85%</td><td><span class="badge badge-green">Regular</span></td></tr>
+                <tr><td>06</td><td>Felipe Moraes</td><td>2025006</td><td>7.0</td><td>6.0</td><td>—</td><td>—</td><td>80%</td><td><span class="badge badge-yellow">Atenção</span></td></tr>
+                <tr><td>07</td><td>Gabriela Santos</td><td>2025007</td><td>9.0</td><td>9.5</td><td>—</td><td>—</td><td>97%</td><td><span class="badge badge-green">Regular</span></td></tr>
+                <tr><td>08</td><td>João Pedro Silva</td><td>2025008</td><td>9.0</td><td>8.5</td><td>—</td><td>—</td><td>92%</td><td><span class="badge badge-green">Regular</span></td></tr>
+                <tr><td>09</td><td>Larissa Carvalho</td><td>2025009</td><td>6.5</td><td>5.0</td><td>—</td><td>—</td><td>68%</td><td><span class="badge badge-red">Atenção</span></td></tr>
+                <tr><td>10</td><td>Lucas Almeida</td><td>2025010</td><td>8.5</td><td>9.0</td><td>—</td><td>—</td><td>91%</td><td><span class="badge badge-green">Regular</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Inserir Notas -->
+        <div id="teacher-notas" class="page">
+          <div class="page-header">
+            <div class="page-title">✏️ Inserir Notas</div>
+            <div class="page-sub">Lançamento de notas por bimestre</div>
+          </div>
+
+          <div class="form-panel">
+            <div class="form-panel-title">Nova Nota</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Disciplina</label>
+                <select class="form-input" id="nota-disc">
+                  <option>Português</option>
+                  <option>Matemática</option>
+                  <option>História</option>
+                  <option>Física</option>
+                  <option>Química</option>
+                  <option>Biologia</option>
+                  <option>Geografia</option>
+                  <option>Inglês</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Bimestre</label>
+                <select class="form-input" id="nota-bim">
+                  <option>1º Bimestre</option>
+                  <option>2º Bimestre</option>
+                  <option>3º Bimestre</option>
+                  <option>4º Bimestre</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Aluno</label>
+                <select class="form-input" id="nota-aluno">
+                  <option>Ana Beatriz Costa</option>
+                  <option>Bruno Henrique Lima</option>
+                  <option>Camila Rodrigues</option>
+                  <option>Daniel Ferreira</option>
+                  <option>Eduarda Nunes</option>
+                  <option>Felipe Moraes</option>
+                  <option>Gabriela Santos</option>
+                  <option>João Pedro Silva</option>
+                  <option>Larissa Carvalho</option>
+                  <option>Lucas Almeida</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nota (0 – 10)</label>
+                <input type="number" class="form-input" id="nota-valor" min="0" max="10" step="0.1" placeholder="Ex: 8.5">
+              </div>
+            </div>
+            <button class="btn-submit" onclick="salvarNota()">💾 Salvar Nota</button>
+            <div id="nota-toast" class="success-toast">✅ Nota salva com sucesso!</div>
+          </div>
+
+          <div class="table-wrap">
+            <div class="table-title">Notas Lançadas Recentemente</div>
+            <table>
+              <thead><tr><th>Aluno</th><th>Disciplina</th><th>Bimestre</th><th>Nota</th><th>Data</th></tr></thead>
+              <tbody id="notas-recentes">
+                <tr><td>Daniel Ferreira</td><td>Português</td><td>2º Bimestre</td><td><b>10.0</b></td><td>05/05/2025</td></tr>
+                <tr><td>Ana Beatriz Costa</td><td>Português</td><td>2º Bimestre</td><td><b>8.5</b></td><td>05/05/2025</td></tr>
+                <tr><td>Lucas Almeida</td><td>Português</td><td>2º Bimestre</td><td><b>9.0</b></td><td>05/05/2025</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Marcar Prova -->
+        <div id="teacher-provas" class="page">
+          <div class="page-header">
+            <div class="page-title">📋 Marcar Prova</div>
+            <div class="page-sub">Agendamento de avaliações para a turma</div>
+          </div>
+
+          <div class="form-panel">
+            <div class="form-panel-title">Agendar Nova Prova</div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Disciplina</label>
+                <select class="form-input" id="prova-disc">
+                  <option>Português</option>
+                  <option>Matemática</option>
+                  <option>História</option>
+                  <option>Física</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Turma</label>
+                <select class="form-input">
+                  <option>3º Ano B</option>
+                  <option>3º Ano A</option>
+                  <option>2º Ano B</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Data</label>
+                <input type="date" class="form-input" id="prova-data">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Horário</label>
+                <input type="time" class="form-input" id="prova-hora" value="07:30">
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Conteúdo / Observação</label>
+              <input type="text" class="form-input" id="prova-obs" placeholder="Ex: Capítulos 5 ao 8, gramática avançada...">
+            </div>
+            <button class="btn-submit" onclick="salvarProva()">📅 Agendar Prova</button>
+            <div id="prova-toast" class="success-toast">✅ Prova agendada com sucesso!</div>
+          </div>
+
+          <div id="teacher-provas-list"></div>
+        </div>
+
+        <!-- Adicionar Avisos -->
+        <div id="teacher-avisos" class="page">
+          <div class="page-header">
+            <div class="page-title">📢 Avisos</div>
+            <div class="page-sub">Comunicados enviados à turma</div>
+          </div>
+
+          <div class="form-panel">
+            <div class="form-panel-title">Novo Aviso</div>
+            <div class="form-group">
+              <label class="form-label">Título</label>
+              <input type="text" class="form-input" id="aviso-titulo" placeholder="Título do comunicado">
+            </div>
+            <div class="form-group">
+              <label class="form-label">Mensagem</label>
+              <textarea class="form-input" id="aviso-msg" rows="4" placeholder="Escreva o comunicado aqui..." style="resize:vertical; line-height:1.6"></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Categoria</label>
+                <select class="form-input" id="aviso-cat">
+                  <option value="blue">📘 Informativo</option>
+                  <option value="yellow">⚠️ Atenção</option>
+                  <option value="green">✅ Positivo</option>
+                  <option value="red">🔴 Urgente</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn-submit" onclick="salvarAviso()">📤 Publicar Aviso</button>
+            <div id="aviso-toast" class="success-toast">✅ Aviso publicado com sucesso!</div>
+          </div>
+
+          <div id="teacher-avisos-list"></div>
+        </div>
+
+      </div><!-- main-content -->
+    </div><!-- dashboard-body -->
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
